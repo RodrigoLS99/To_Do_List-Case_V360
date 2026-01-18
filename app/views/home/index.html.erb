@@ -1,13 +1,15 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="bg-white p-8 rounded-lg shadow-xl">
-    <h1 class="text-3xl font-bold text-blue-600 mb-4">
-      🚀 Setup V360 Concluído!
-    </h1>
-    <p class="text-gray-600 text-lg">
-      Se este texto está cinza e o título azul, o Tailwind está funcionando.
+<div class="mt-6 space-x-4">
+  <% if user_signed_in? %>
+    <p class="text-green-600 font-semibold mb-2">
+      Olá, <%= current_user.name || current_user.email %>!
     </p>
-    <button class="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-      Botão Estilizado
-    </button>
-  </div>
+    
+    <%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete }, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
+  <% else %>
+    <p class="text-gray-600 mb-2">Você não está logado.</p>
+    
+    <%= link_to "Entrar", new_user_session_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    
+    <%= link_to "Cadastrar", new_user_registration_path, class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" %>
+  <% end %>
 </div>

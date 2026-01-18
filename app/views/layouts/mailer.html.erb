@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-      /* Email styles need to be inline */
+      /* Resets básicos para garantir compatibilidade com Outlook e Gmail */
+      body {
+        width: 100% !important;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      img {
+        outline: none;
+        text-decoration: none;
+        -ms-interpolation-mode: bicubic;
+      }
     </style>
   </head>
 
-  <body>
-    <%= yield %>
+  <body style="background-color: #f3f4f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0;">
+    
+    <div style="width: 100%; background-color: #f3f4f6;">
+      <%= yield %>
+    </div>
+
   </body>
 </html>

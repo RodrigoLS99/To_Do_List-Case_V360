@@ -1,31 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-gray-50">
   <head>
     <title><%= content_for(:title) || "V360 Todo List" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="V360 Todo List">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="h-full font-sans antialiased text-gray-900">
+    
+    <%# --- NAVBAR (Só aparece se estiver logado) --- %>
+    <% if user_signed_in? %>
+      <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between h-16">
+            <div class="flex">
+              <div class="flex-shrink-0 flex items-center">
+                <%= link_to root_path, class: "text-xl font-bold text-blue-600 flex items-center gap-2" do %>
+                  <span></span> V360 To do
+                <% end %>
+              </div>
+              
+              <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                <%# Nota: O link abaixo vai funcionar assim que criarmos as listas na próxima etapa %>
+                <%#= link_to "Minhas Listas", todo_lists_path, class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+               <span class="text-sm text-gray-500 hidden md:block">
+                 Olá, <strong><%= current_user.name || current_user.email %></strong>
+               </span>
+               
+               <%= button_to "Sair", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "text-sm text-red-600 hover:text-red-800 font-medium bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md transition duration-150" %>
+            </div>
+          </div>
+        </div>
+      </nav>
+    <% end %>
+
+    <%# --- MENSAGENS FLASH (Alertas Verdes/Vermelhos) --- %>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+      <% if notice %>
+        <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-4 rounded shadow-sm flex justify-between items-center animate-fade-in-down">
+          <div class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <p class="text-green-700 text-sm"><%= notice %></p>
+          </div>
+          <button onclick="this.parentElement.remove()" class="text-green-500 hover:text-green-700 font-bold px-2">×</button>
+        </div>
+      <% end %>
+
+      <% if alert %>
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4 rounded shadow-sm flex justify-between items-center animate-fade-in-down">
+          <div class="flex items-center">
+            <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p class="text-red-700 text-sm"><%= alert %></p>
+          </div>
+          <button onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700 font-bold px-2">×</button>
+        </div>
+      <% end %>
+    </div>
+
+    <%# --- CONTEÚDO PRINCIPAL --- %>
+    <main>
       <%= yield %>
     </main>
+
   </body>
 </html>

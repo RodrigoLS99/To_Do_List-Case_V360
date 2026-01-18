@@ -1,0 +1,32 @@
+<div style="background-color: #f3f4f6; padding: 40px 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    
+    <h2 style="color: #1f2937; text-align: center; font-size: 24px; margin-bottom: 20px;">
+      Aviso de Alteração de E-mail 🔒
+    </h2>
+
+    <p style="color: #4b5563; font-size: 16px; line-height: 1.5;">
+      Olá, <strong><%= @email %></strong>!
+    </p>
+
+    <div style="margin: 20px 0; color: #4b5563; font-size: 16px; line-height: 1.5;">
+      <% if @resource.try(:unconfirmed_email?) %>
+        <p>
+          Estamos entrando em contato para avisar que há uma solicitação para alterar seu e-mail para: 
+          <br>
+          <strong style="color: #2563eb; font-size: 18px;"><%= @resource.unconfirmed_email %></strong>
+        </p>
+      <% else %>
+        <p>
+          Estamos confirmando que o e-mail da sua conta foi alterado com sucesso para: 
+          <br>
+          <strong style="color: #2563eb; font-size: 18px;"><%= @resource.email %></strong>
+        </p>
+      <% end %>
+    </div>
+
+    <p style="color: #6b7280; font-size: 14px; margin-top: 30px; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+      Se você não solicitou essa alteração, entre em contato conosco imediatamente.
+    </p>
+  </div>
+</div>

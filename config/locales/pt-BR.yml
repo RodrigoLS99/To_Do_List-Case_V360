@@ -1,0 +1,20 @@
+pt-BR:
+  activerecord:
+    models:
+      user: "Usuário"
+      todo_list: "Lista de Tarefas"
+    attributes:
+      user:
+        name: "Nome"
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmação de Senha"
+      todo_list:
+        title: "Título"
+  
+  # Personalizando a frase de erro específica do Devise/Rails se quiser algo diferente do padrão
+  errors:
+    messages:
+      not_saved:
+        one: "1 erro impediu que este %{resource} fosse salvo:"
+        other: "%{count} erros impediram que este %{resource} fosse salvo:"
