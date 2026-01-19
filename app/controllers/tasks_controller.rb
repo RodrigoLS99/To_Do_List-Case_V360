@@ -35,5 +35,10 @@ class TasksController < ApplicationController
 
   def task_params
       params.require(:task).permit(:content, :due_date, :comment)
-    end
+  end
+
+  def move
+    @task.insert_at(params[:new_position].to_i)
+    head :ok
+  end
 end

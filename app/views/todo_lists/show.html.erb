@@ -31,14 +31,22 @@
 
   <div class="bg-gray-50 border-x border-b border-gray-200 rounded-b-xl p-6 min-h-[300px]">
     
-    <div id="tasks" class="space-y-4 mb-8">
-      <% @todo_list.tasks.order(:created_at).each do |task| %>
+    <div id="tasks" 
+         class="space-y-4 mb-8" 
+         data-controller="sortable" 
+         data-url="/todo_lists/<%= @todo_list.id %>/tasks/:id/move">
+
+      <% @todo_list.tasks.each do |task| %>
         <% if task.persisted? %>
-          <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 group transition hover:border-blue-300 <%= 'opacity-60 bg-gray-50' if task.completed_at? %>">
+          <div data-id="<%= task.id %>" class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 group transition hover:border-blue-300 <%= 'opacity-60 bg-gray-50' if task.completed_at? %>">
             
             <div class="flex items-start justify-between">
               
               <div class="flex items-start gap-3 w-full">
+                
+                <div class="cursor-move text-gray-300 hover:text-gray-500 mt-1.5 px-1 cursor-grab active:cursor-grabbing" title="Arrastar para reordenar">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
+                </div>
                 
                 <% if task.completed_at? %>
                   <%= button_to complete_todo_list_task_path(@todo_list, task), method: :patch, class: "mt-1 w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center border border-green-200 hover:bg-green-200 cursor-pointer transition flex-shrink-0", title: "Reabrir tarefa" do %>
@@ -55,7 +63,6 @@
                   </p>
 
                   <div class="mt-1 flex flex-wrap gap-3 text-xs text-gray-500">
-                    
                     <% if task.due_date.present? %>
                       <span class="flex items-center gap-1 <%= 'text-red-500 font-semibold' if task.due_date < Time.current && !task.completed_at? %>">
                         📅 <%= task.due_date.strftime("%d/%m/%Y") %>
@@ -68,7 +75,6 @@
                         💬 <%= task.comment %>
                       </span>
                     <% end %>
-
                   </div>
                 </div>
               </div>
