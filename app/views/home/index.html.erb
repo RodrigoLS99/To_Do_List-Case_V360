@@ -1,15 +1,58 @@
-<div class="mt-6 space-x-4">
-  <% if user_signed_in? %>
-    <p class="text-green-600 font-semibold mb-2">
-      Olá, <%= current_user.name || current_user.email %>!
+<div class="min-h-[80vh] flex flex-col items-center justify-center">
+  
+  <div class="text-center max-w-3xl px-4 mb-10">
+    <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-6">
+      Organize sua vida <span class="text-blue-600">sem complicação</span>.
+    </h1>
+    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+      O V360 Todo List é a maneira mais simples de gerenciar suas tarefas diárias, 
+      aumentar sua produtividade e manter o foco no que realmente importa.
     </p>
-    
-    <%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete }, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
-  <% else %>
-    <p class="text-gray-600 mb-2">Você não está logado.</p>
-    
-    <%= link_to "Entrar", new_user_session_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
-    
-    <%= link_to "Cadastrar", new_user_registration_path, class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" %>
-  <% end %>
+
+    <% if user_signed_in? %>
+      
+      <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 max-w-md mx-auto transition transform hover:-translate-y-1">
+        <div class="mb-6">
+          <div class="h-16 w-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+            👋
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800">
+            Olá, <%= current_user.name.presence || "Visitante" %>!
+          </h2>
+          <p class="text-gray-500 text-sm mt-1"><%= current_user.email %></p>
+        </div>
+
+        <div class="space-y-3">
+          <%= link_to todo_lists_path, class: "block w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition duration-200 flex items-center justify-center gap-2" do %>
+            <span>🚀</span> Acessar minhas Listas
+          <% end %>
+
+          <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "block w-full py-3 px-6 bg-gray-50 hover:bg-gray-100 text-gray-600 font-medium rounded-lg border border-gray-200 transition duration-200" do %>
+            Sair da conta
+          <% end %>
+        </div>
+      </div>
+
+    <% else %>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        
+        <%= link_to new_user_registration_path, class: "group relative px-8 py-4 bg-blue-600 text-white font-bold text-lg rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-500/30 w-full sm:w-auto text-center" do %>
+          Começar Grátis
+          <span class="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+        <% end %>
+
+        <%= link_to new_user_session_path, class: "px-8 py-4 bg-white text-gray-700 font-bold text-lg rounded-full hover:bg-gray-50 border border-gray-200 transition w-full sm:w-auto text-center" do %>
+          Já tenho conta
+        <% end %>
+        
+      </div>
+      
+      <p class="mt-6 text-sm text-gray-400">
+        Não requer cartão de crédito • Setup instantâneo
+      </p>
+
+    <% end %>
+  </div>
+
 </div>
