@@ -38,12 +38,20 @@
             
             <div class="flex items-center gap-3">
               <% if task.completed_at? %>
-                <div class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center border border-green-200">✓</div>
+                
+                <%= button_to complete_todo_list_task_path(@todo_list, task), method: :patch, class: "w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center border border-green-200 hover:bg-green-200 cursor-pointer transition", title: "Reabrir tarefa" do %>
+                  ✓
+                <% end %>
+                
                 <span class="text-gray-400 line-through decoration-gray-400"><%= task.content %></span>
+
               <% else %>
+                
                 <%= button_to complete_todo_list_task_path(@todo_list, task), method: :patch, class: "w-6 h-6 rounded-full border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition flex-shrink-0", title: "Marcar como concluído" do %>
                 <% end %>
+                
                 <span class="text-gray-800 font-medium"><%= task.content %></span>
+              
               <% end %>
             </div>
 

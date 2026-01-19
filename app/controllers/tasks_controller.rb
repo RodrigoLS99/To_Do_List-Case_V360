@@ -12,9 +12,15 @@ class TasksController < ApplicationController
     redirect_to @todo_list, notice: "Tarefa apagada."
   end
 
+  # PATCH /todo_lists/:todo_list_id/tasks/:id/complete
   def complete
-    @task.update(completed_at: Time.now)
-    redirect_to @todo_list, notice: "Tarefa concluída!"
+    if @task.completed_at?
+      @task.update(completed_at: nil) # Remove a data (Desmarca)
+    else
+      @task.update(completed_at: Time.now) # Adiciona a data (Marca)
+    end
+    
+    redirect_to @todo_list
   end
 
   private
