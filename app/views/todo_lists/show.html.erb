@@ -31,10 +31,9 @@
 
   <div class="bg-gray-50 border-x border-b border-gray-200 rounded-b-xl p-6 min-h-[300px]">
     
-    <div id="tasks" 
-         class="space-y-4 mb-8" 
-         data-controller="sortable" 
-         data-url="/todo_lists/<%= @todo_list.id %>/tasks/:id/move">
+    <%= turbo_frame_tag "tasks", 
+         class: "space-y-4 mb-8 block", 
+         data: { controller: "sortable", url: "/todo_lists/#{@todo_list.id}/tasks/:id/move" } do %>
 
       <% @todo_list.tasks.each do |task| %>
         <% if task.persisted? %>
@@ -89,12 +88,11 @@
       <% if @todo_list.tasks.none?(&:persisted?) %>
         <p class="text-center text-gray-400 py-4 italic text-sm">Nenhuma tarefa criada ainda.</p>
       <% end %>
-    </div>
 
-    <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm mt-8">
+    <% end %> <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm mt-8">
       <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Nova Tarefa</h3>
       
-      <%= form_with(model: [@todo_list, @todo_list.tasks.build], class: "flex flex-col gap-3") do |f| %>
+      <%= form_with(model: [@todo_list, @todo_list.tasks.build], class: "flex flex-col gap-3", data: { turbo_frame: "tasks" }) do |f| %>
         
         <%= f.text_field :content, placeholder: "O que precisa ser feito?", class: "w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2", required: true, autocomplete: "off" %>
         
